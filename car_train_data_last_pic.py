@@ -1,7 +1,8 @@
 import keras
+from keras import backend as K
 from keras.utils import to_categorical
 from keras.models import Sequential, Model
-from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten, Add, Input, BatchNormalization
+from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten, Add, Input, BatchNormalization, Layer
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 from sklearn.utils import shuffle
@@ -12,6 +13,25 @@ import h5py, sys, os
 import cv2
 from tqdm import tqdm
 from glob import glob
+from random import random
+
+class randomize(Layer):
+    def __init__(self, Brightrange, **kwargs):
+#        self.output_dim = self.
+        self.Brightrange = Brightrange
+        super(randomize, self).__init__(**kwargs)
+
+    def build(self, input_shape):
+        super(randomize, self).build(input_shape)  # Be sure to call this at the end
+
+    def call(self, x):
+        if K.learning_phase() == 1:
+            return x*(random()*self.Brightrange[1]+self.Brightrange[0])
+        else:
+            return x
+
+    def compute_output_shape(self, input_shape):
+        return input_shape
 
 x_train  = []
 x_train1 = []
@@ -35,7 +55,7 @@ data = sorted(glob("data\\*.png"),key=os.path.getmtime)
 
 for image in tqdm(data):
     try:
-        img = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
+        img = cv2.imread(image)#, cv2.IMREAD_GRAYSCALE)
     except:
         pass
 # Prepare Data
@@ -45,7 +65,7 @@ for image in tqdm(data):
     img  = img.astype("float32")
     img /= 255
 
-    img = img.reshape((80,64-offset ,1))
+    img = img.reshape((80,64-offset ,3))
     a = image.split("_")[0].split("\\")[1]
     direct  = int(a)-2
 
@@ -101,12 +121,14 @@ x_test = np.concatenate((x_test1,x_test2,x_test3),3)
 regularisationParam = 1e-3
 
 
-inp   = Input(shape=(80, 64-croppe ,3,))
+inp   = Input(shape=(80, 64-croppe ,9,))
 
-conv  = Conv2D(32, (2,2), strides=2, activation="relu", padding="same", kernel_regularizer=keras.regularizers.l2(l=regularisationParam))(inp)
+dataGen = randomize([0.5,1.1])(inp)
+
+conv  = Conv2D(32, (2,2), strides=2, activation="relu", padding="same", kernel_regularizer=keras.regularizers.l2(l=regularisationParam))(dataGen)
 conv  = BatchNormalization()(conv)
 conv  = MaxPooling2D(pool_size=(2,2), strides=2)(conv)
-conv  = Dropout(0.2)(conv)
+conv  = Dropout(0.3)(conv)
 
 conv  = Conv2D(64, (2,2), strides=2, activation="relu", padding="same", kernel_regularizer=keras.regularizers.l2(l=regularisationParam))(conv)
 conv  = BatchNormalization()(conv)
@@ -134,19 +156,10 @@ model.compile(loss="mean_squared_error",
 	optimizer=Adam(lr=0.0001),
 	metrics=["accuracy"])
 
-dataGenerator = ImageDataGenerator(brightness_range=[0.5,1.5])
-dataGenerator.fit(x_train)
-
-iterator = dataGenerator.flow(x_train, y_train, batch_size=32)
-
-history = model.fit_generator(iterator, steps_per_epoch=120,
-    epochs = 200,
-    validation_data = (x_test,y_test))
-
-#history = model.fit(x_train,y_train,
-#	batch_size = 16,
-#	epochs = 200,
-#	validation_data = (x_test,y_test))
+history = model.fit(x_train,y_train,
+	batch_size = 32,
+	epochs = 110,
+	validation_data = (x_test,y_test))
 
 model.save("IronCarHistory.h5")
 
