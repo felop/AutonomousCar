@@ -1,3 +1,3 @@
 # AutonomousCar
 
-### ❌ this is not up-to-date nor operational ❌
+### ❌ it is not up-to-date therefore not operational ❌
