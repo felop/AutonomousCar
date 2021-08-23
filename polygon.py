@@ -2,9 +2,6 @@ import numpy as np
 import cv2
 from random import randint
 
-polygnNUMBER = 2
-randomizer = 3
-
 def combine_two_color_images_with_anchor(image1, image2, anchor_y, anchor_x):
     foreground, background = image1.copy(), image2.copy()
     # Check if the foreground is inbound with the new coordinates and raise an error if out of bounds
