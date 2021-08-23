@@ -9,9 +9,8 @@ camera.start_preview()
 isos = []
 for i in range(10):
     iso = 100*(i+1)
-    u += 1
     time.sleep(0.1)
-    print("pic nb "+str(u)+" , iso : "+str(iso))
+    print("pic nb "+str(u+i)+" , iso : "+str(iso))
     camera.iso = iso
     title = "iso/"+str(iso)+"_"+str(u)+".png"
     camera.capture(title , use_video_port=True)
