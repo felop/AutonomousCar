@@ -14,6 +14,11 @@ import cv2
 from tqdm import tqdm
 from glob import glob
 from random import random
+import polygon
+import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
 
 class randomize(Layer):
     def __init__(self, Brightrange, **kwargs):
@@ -22,11 +27,14 @@ class randomize(Layer):
         super(randomize, self).__init__(**kwargs)
 
     def build(self, input_shape):
-        super(randomize, self).build(input_shape)  # Be sure to call this at the end
+        super(randomize, self).build(input_shape)
 
     def call(self, x):
         if K.learning_phase() == 1:
-            return x*(random()*self.Brightrange[1]+self.Brightrange[0])
+            #return x
+            #return x*(random()*self.Brightrange[1]+self.Brightrange[0])
+            #return polygon.shadow(x,2,2)
+            return polygon.shadow(x*(random()*self.Brightrange[1]+self.Brightrange[0]), 4, 1, 0.95) # img ; random factor ; number of polygons ; alpha
         else:
             return x
 
@@ -48,14 +56,12 @@ y_test   = []
 directInv = 0
 
 offset = 15
-imgMultiply = 1
-croppe = 15
 
-data = sorted(glob("data\\*.png"),key=os.path.getmtime)
+data = sorted(glob("whitePics\\*.png"),key=os.path.getmtime)
 
 for image in tqdm(data):
     try:
-        img = cv2.imread(image)#, cv2.IMREAD_GRAYSCALE)
+        img = cv2.imread(image,cv2.IMREAD_COLOR)#, cv2.IMREAD_GRAYSCALE)
     except:
         pass
 # Prepare Data
@@ -65,9 +71,9 @@ for image in tqdm(data):
     img  = img.astype("float32")
     img /= 255
 
-    img = img.reshape((80,64-offset ,3))
+    img = img.reshape((64-offset,80 ,3))
     a = image.split("_")[0].split("\\")[1]
-    direct  = int(a)-2
+    direct  = int(a)
 
     x_train.append(img)
     y_train.append(direct)
@@ -109,26 +115,22 @@ y_test = np.array(y_test)
 # concatenate (merge the 3 one channel images into a 3 channel image)
 x_train = np.concatenate((x_train1,x_train2,x_train3),3)
 x_test = np.concatenate((x_test1,x_test2,x_test3),3)
-
 # data augmentation
-
-
 
 # Model
 
 #conv  = Dropout(0.2)(conv)
 
-regularisationParam = 1e-3
+regularisationParam = 1e-9
 
+inp   = Input(shape=(64-offset,80 ,9,))
 
-inp   = Input(shape=(80, 64-croppe ,9,))
-
-dataGen = randomize([0.5,1.1])(inp)
+dataGen = randomize([0.8,1.2])(inp)
 
 conv  = Conv2D(32, (2,2), strides=2, activation="relu", padding="same", kernel_regularizer=keras.regularizers.l2(l=regularisationParam))(dataGen)
 conv  = BatchNormalization()(conv)
 conv  = MaxPooling2D(pool_size=(2,2), strides=2)(conv)
-conv  = Dropout(0.3)(conv)
+conv  = Dropout(0.2)(conv)
 
 conv  = Conv2D(64, (2,2), strides=2, activation="relu", padding="same", kernel_regularizer=keras.regularizers.l2(l=regularisationParam))(conv)
 conv  = BatchNormalization()(conv)
@@ -137,11 +139,9 @@ conv  = Dropout(0.2)(conv)
 
 conv  = Flatten()(conv)
 
-dens  = Dense(64, use_bias=False,  activation="relu", kernel_regularizer=keras.regularizers.l2(l=regularisationParam))(conv)
+dens  = Dense(32, use_bias=False,  activation="relu", kernel_regularizer=keras.regularizers.l2(l=regularisationParam))(conv)
 dens  = BatchNormalization()(dens)
 dens  = Dense(16  , use_bias=False, activation="relu", kernel_regularizer=keras.regularizers.l2(l=regularisationParam))(dens)
-dens  = BatchNormalization()(dens)
-dens  = Dense(8  , use_bias=False, activation="relu", kernel_regularizer=keras.regularizers.l2(l=regularisationParam))(dens)    #relu
 dens  = BatchNormalization()(dens)
 
 output = Dense(1,  use_bias=False, activation="tanh")(dens)
@@ -150,18 +150,15 @@ model = Model(inputs=inp, outputs=output)
 
 # Entrainer Model
 
-# model.summary()
-
+model.summary()
 model.compile(loss="mean_squared_error",
 	optimizer=Adam(lr=0.0001),
 	metrics=["accuracy"])
 
 history = model.fit(x_train,y_train,
 	batch_size = 32,
-	epochs = 110,
+	epochs = 80,
 	validation_data = (x_test,y_test))
-
-model.save("IronCarHistory.h5")
 
 def graphValues(history,Acc):
     plt.figure()
@@ -171,6 +168,7 @@ def graphValues(history,Acc):
         plt.title('model accuracy')
         plt.ylabel('accuracy')
         plt.xlabel('epoch')
+        plt.ylim([0,1])
         plt.legend(['train', 'test'], loc='upper left')
 
     elif Acc == 0:
@@ -179,8 +177,12 @@ def graphValues(history,Acc):
         plt.title('model loss')
         plt.ylabel('loss')
         plt.xlabel('epoch')
+        plt.ylim([0,1])
         plt.legend(['train', 'test'], loc='upper left')
 
 graphValues(history,0)
 graphValues(history,1)
 plt.show()
+
+if input("wanna save (yes/no) ? ") == "yes":
+    model.save("IronCarHistory.h5")
