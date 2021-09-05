@@ -13,6 +13,8 @@ I built this car for the IronCar race, where all cars are driven by artificial i
 * RaspberryPi PWM shield
 * some voltage regulators
 * wifi dongle
-<br/><br/><br/>
+<br/><br/><br/><br/><br/>
+
+<img src="car_pics/IronCarTraining.png" width=50% align="left">
 
 ## software
