@@ -15,7 +15,7 @@ I built this car for the IronCar race, where all cars are driven by artificial i
 * wifi dongle
 * 2x batteries
 * relay module as an emergency stop
-<br/><br/><br/><br/><br/>
+<br/><br/><br/><br/>
 
 <img src="car_pics/IronCarTraining3.JPG" width=27% align="left">
 
