@@ -6,7 +6,7 @@ I built this car for the IronCar race, where all cars are driven by artificial i
 <br/>
 <img src="car_pics/IronCarTraining2.JPG" width=50% align="right">
 
-## hardware : 
+## ⚙️ hardware : 
 * RaspberryPi 3b+
 * RC car (T2M Pirate Shooter)
 * PiCamera (wide angle)
@@ -15,6 +15,7 @@ I built this car for the IronCar race, where all cars are driven by artificial i
 * wifi dongle
 <br/><br/><br/><br/><br/>
 
-<img src="car_pics/IronCarTraining.png" width=50% align="left">
+<img src="car_pics/IronCarTraining3.JPG" width=27% align="left">
 
-## software
+## 💿 software :
+
