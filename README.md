@@ -20,4 +20,4 @@ I built this car for the IronCar race, where all cars are driven by artificial i
 <img src="car_pics/IronCarTraining3.JPG" width=27% align="left">
 
 ## 💿 software :
-
+The car's on-board computer is in charge of processing the images in order to predict the orientation of the wheels, to correct the trajectory. This analysis is done by a combination of convolutional and sequential neural networks. These networks predict a direction according to the input image, processed by algorithms in charge of transforming the flow of the camera into data adapted for the network. The other on-board computer (it was an Arduino at first but it has been replaced by a PWM shield for the pi) is in charge of retrieving the predictions of the network and transmitting them to the different engines.
