@@ -1,5 +1,7 @@
 # AutonomousCar
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/809c94dc9a3946a3a58db0bfc6c5d5e7)](https://app.codacy.com/gh/felop/AutonomousCar?utm_source=github.com&utm_medium=referral&utm_content=felop/AutonomousCar&utm_campaign=Badge_Grade_Settings)
+
 ![](https://img.shields.io/tokei/lines/github/felop/autonomouscar)   ![](https://img.shields.io/github/last-commit/felop/autonomouscar)
 
 I built this car for the IronCar race, where all cars are driven by artificial intelligence. It's the result of several weeks of tweaking and programming.
