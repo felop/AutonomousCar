@@ -22,11 +22,10 @@ def combine_two_color_images_with_anchor(image1, image2, anchor_y, anchor_x):
 
 def shadow(img,randomizer=3,polygnNUMBER=2,alpha=0.8):
     # add borders
-    size = [img.shape[0],img.shape[1]]
     border = np.zeros((20*2+img.shape[0],20*2+img.shape[1],3)) # create a single channel 200x200 pixel black
     borderedIMG = combine_two_color_images_with_anchor(img,border,20,20)
 # add polygones
-    for i in range(int(randint(10,10*randomizer)/10*polygnNUMBER)):
+    for _ in range(int(randint(10,10*randomizer)/10*polygnNUMBER)):
         A = [randint(0,20),randint(0,40+img.shape[1])]
         B = [randint(0,40+img.shape[0]),randint(img.shape[1]+20,img.shape[1]+40)]
         C = [randint(img.shape[0]+20,img.shape[0]+40),randint(0,40+img.shape[1])]
