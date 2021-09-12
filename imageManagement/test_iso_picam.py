@@ -1,4 +1,4 @@
-import io, picamera, time, cv2
+import picamera, time, cv2
 
 camera = picamera.PiCamera()
 u = int(input("u = "))
