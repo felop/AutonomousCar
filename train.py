@@ -60,10 +60,7 @@ offset = 15
 data = sorted(glob("whitePics\\*.png"),key=os.path.getmtime)
 
 for image in tqdm(data):
-    try:
         img = cv2.imread(image,cv2.IMREAD_COLOR)#, cv2.IMREAD_GRAYSCALE)
-    except:
-        pass
 # Prepare Data
     img  = cv2.resize(img,(80,64))
     img  = img[offset:, :]
