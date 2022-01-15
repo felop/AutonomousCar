@@ -4,7 +4,7 @@
 
 I built this car for the IronCar race, where all cars are driven by artificial intelligence. It's the result of several weeks of tweaking and programming.
 <br/>
-<img src="car_pics/IronCarTraining2.JPG" width=50% align="right">
+<img src="car_pics/IMG-6786.jpg" width=50% align="right">
 
 ## ⚙️ hardware : 
 * RaspberryPi 3b+
@@ -17,7 +17,7 @@ I built this car for the IronCar race, where all cars are driven by artificial i
 * relay module as an emergency stop
 <br/><br/><br/><br/>
 
-<img src="car_pics/IronCarTraining3.JPG" width=27% align="left">
+<img src="car_pics/IMG-6805.jpg" width=27% align="left">
 
 ## 💿 software :
 The car's on-board computer is in charge of processing the images in order to predict the orientation of the wheels, to correct the car's trajectory. This analysis is done by a combination of convolutional and sequential neural networks.
