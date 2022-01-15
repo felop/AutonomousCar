@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/tokei/lines/github/felop/autonomouscar)   ![](https://img.shields.io/github/last-commit/felop/autonomouscar)   [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ca4a931bbbc2400cb4a401179d4df188)](https://www.codacy.com/gh/felop/AutonomousCar/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=felop/AutonomousCar&amp;utm_campaign=Badge_Grade)
 
-I built this car for the IronCar race, where all cars are driven by artificial intelligence. It's the result of several weeks of tweaking and programming.
+I built this car for the [IronCar](https://twitter.com/ironcarfrance) race, where all cars are driven by artificial intelligence. It's the result of several weeks of tweaking and programming.
 <br/>
 <img src="car_pics/IMG-6800.JPG" width=50% align="right">
 
