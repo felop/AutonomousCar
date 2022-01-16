@@ -20,10 +20,10 @@ I built this car for the [IronCar](https://twitter.com/ironcarfrance) race, wher
 <img src="car_pics/IMG-6805.jpg" width=27% align="left">
 
 ## 💿 software :
-The car's on-board computer is in charge of processing the images in order to predict the orientation of the wheels, to correct the car's trajectory. This analysis is done by a combination of convolutional and sequential neural networks.
-These networks predict a direction according to the input image, processed by algorithms in charge of transforming the camera feed into data adapted for the network.
+The car's on-board computer is in charge of processing the images in order to predict the wheels' orientation to correct the car's trajectory. 
+This analysis is done by a combination of convolutional and sequential neural networks. These networks predict a direction according to the input image, processed by algorithms in charge of transforming the camera feed into data adapted for the network.
 
-The other on-board computer (it was an Arduino at first but it has been replaced by a PWM shield for the pi) is in charge of retrieving the predictions of the network and transmitting them to the different engines.
+The other on-board computer (it was an Arduino at first but it has been replaced by a PWM shield) is in charge of retrieving the predictions of the network and transmitting them to the different motors.
 <br/><br/><br/><br/>
 <br/><br/><br/><br/>
 
