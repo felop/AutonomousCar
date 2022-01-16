@@ -30,7 +30,4 @@ The other on-board computer (it was an Arduino at first but it has been replaced
 <img src="car_pics/IMG-6779.JPG" width=50% align="right">
 
 ## 🎛 new upgrades :
-The car's on-board computer is in charge of processing the images in order to predict the orientation of the wheels, to correct the car's trajectory. This analysis is done by a combination of convolutional and sequential neural networks.
-These networks predict a direction according to the input image, processed by algorithms in charge of transforming the camera feed into data adapted for the network.
-
-The other on-board computer (it was an Arduino at first but it has been replaced by a PWM shield for the pi) is in charge of retrieving the predictions of the network and transmitting them to the different engines.
+To improve stability and thus image quality, I 3D printed two mounts to hold the plexiglass base. 
